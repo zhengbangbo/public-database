@@ -1,0 +1,29 @@
+{
+  "name": "component-library-list",
+  "version": "0.1.0",
+  "description": "",
+  "author": "Bang-Bo Zheng <zhengbangbo@hotmail.com> (https://github.com/zhengbangbo)",
+  "license": "MIT",
+  "keywords": [],
+  "main": "./out/main.js",
+  "scripts": {
+    "start": "pnpm compile && node ./out/main",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "jest --watch"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.1",
+    "@octokit/core": "^4.1.0",
+    "dotenv": "^16.0.3",
+    "ohmyfetch": "^0.4.20"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.2.0",
+    "@zhengbangbo/eslint-config": "^0.0.9",
+    "eslint": "^8.26.0",
+    "jest": "^29.2.2",
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1"
+  }
+}
