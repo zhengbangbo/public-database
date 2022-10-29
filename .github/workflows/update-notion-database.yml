@@ -1,15 +1,17 @@
-on:
+on: 
   schedule:
-    - cron:  '*/5 * * * *'
+    - cron: "25 0 * * *"
     
 jobs:
   updateNotionDatabase:
     runs-on: ubuntu-latest
+    env:
+      NOTION_TOKEN: ${{secrets.NOTION_TOKEN}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: latest
-      - run: pnpm i
-      - run: pnpm start
+      - run: "pnpm i"
+      - run: "NOTION_TOKEN=$NOTION_TOKEN pnpm start"
