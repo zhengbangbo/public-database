@@ -18,8 +18,8 @@ async function getNotionData() {
   const pagesId = await reqPagesId()
   await Promise.all(pagesId.map(async (pageId) => {
     const npmName = await reqNpmName(pageId)
-    const { weeklyDownload, githubStar, lastPublsh } = await reqPackageData(pageId)
-    const eachPage: ComponentLibraryData = { pageId, npmName, weeklyDownload, githubStar, lastPublsh }
+    const { weeklyDownload, githubStar, lastPublish } = await reqPackageData(pageId)
+    const eachPage: ComponentLibraryData = { pageId, npmName, weeklyDownload, githubStar, lastPublish }
     componentLibraryData.push(eachPage)
     return Promise.resolve()
   }))
