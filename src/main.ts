@@ -1,6 +1,6 @@
 import { reqGithubStar } from './api/github'
 import { type PackageData, patchPackageData, reqNpmName, reqPackageData, reqPagesId } from './api/notion'
-import { reqPackageMetadata, reqWeeklyDownload } from './api/npm'
+import { type PackageMetadata, reqPackageMetadata, reqWeeklyDownload } from './api/npm'
 import { getOwnerAndRepo, getRepositoryUrl } from './util/utils'
 
 interface ComponentLibraryData extends PackageData {
@@ -9,8 +9,8 @@ interface ComponentLibraryData extends PackageData {
 }
 const componentLibraryData: ComponentLibraryData[] = []
 
-function transRepositoryUrl(packageMetadata: any) {
-  const repositoryUrl: string = getRepositoryUrl(packageMetadata?.repository?.url) || packageMetadata?.bugs?.url?.slice(0, -7) || packageMetadata?.homepage
+function transRepositoryUrl(packageMetadata: PackageMetadata) {
+  const repositoryUrl: string = getRepositoryUrl(packageMetadata.repository.url) || packageMetadata.bugs.url.slice(0, -7) || packageMetadata.homepage
   return getOwnerAndRepo(repositoryUrl)
 }
 
@@ -61,6 +61,20 @@ async function run() {
             },
           },
         ],
+      },
+      'Name': {
+        title: [
+          {
+            type: 'text',
+            text: { content: Repository },
+          },
+        ],
+      },
+      'github': {
+        url: getRepositoryUrl(packageMetadata.repository.url) || packageMetadata.bugs.url.slice(0, -7) || packageMetadata.homepage,
+      },
+      'homepage': {
+        url: packageMetadata?.homepage,
       },
     }
     await patchPackageData(each.pageId, properties)
