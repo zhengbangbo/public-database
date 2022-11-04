@@ -15,15 +15,20 @@ export const reqWeeklyDownload = async (npmName: string | undefined) => {
 }
 
 // https://github.com/npm/registry/blob/master/docs/responses/package-metadata.md
+export interface PackageMetadata {
+  time: {
+    modified: string
+  }
+  homepage: string
+  repository: {
+    url: string
+  }
+  bugs: {
+    url: string
+  }
+}
 export const reqPackageMetadata = async (npmName: string | undefined) => {
-  if (!npmName) return
+  if (!npmName) throw new Error('empty npmName')
 
-  const url = `https://registry.npmjs.org/${npmName}`
-  try {
-    const data = await $fetch(url)
-    return data
-  }
-  catch (error) {
-    console.error(error)
-  }
+  return await $fetch(`https://registry.npmjs.org/${npmName}`) as PackageMetadata
 }

@@ -47,7 +47,7 @@ export const reqNpmName = (page_id: string) => notion.pages.retrieve({ page_id }
 export interface PackageData {
   weeklyDownload: number | null
   githubStar: number | null
-  lastPublsh: string
+  lastPublish: string
 
 }
 
@@ -56,13 +56,13 @@ export const reqPackageData = (page_id: page_id) => notion.pages.retrieve({ page
     const data: PackageData = {
       weeklyDownload: 0,
       githubStar: 0,
-      lastPublsh: '',
+      lastPublish: '',
     }
     if ('properties' in res) {
       // Note: The following three property names are hard-coded and fail here when the header is modified
       const weeklyDownload = res.properties['Weekly Downloads']
       const githubStar = res.properties['GitHub Star']
-      const lastPublsh = res.properties['Last Publish']
+      const lastPublish = res.properties['Last Publish']
 
       if ('number' in weeklyDownload)
         data.weeklyDownload = weeklyDownload.number
@@ -70,8 +70,8 @@ export const reqPackageData = (page_id: page_id) => notion.pages.retrieve({ page
       if ('number' in githubStar)
         data.githubStar = githubStar.number
 
-      if ('rich_text' in lastPublsh)
-        data.lastPublsh = lastPublsh.rich_text.length === 1 ? lastPublsh.rich_text[0].plain_text : ''
+      if ('rich_text' in lastPublish)
+        data.lastPublish = lastPublish.rich_text.length === 1 ? lastPublish.rich_text[0].plain_text : ''
     }
     return data
   },
