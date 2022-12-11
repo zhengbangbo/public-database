@@ -2,6 +2,7 @@ import { reqGithubStar } from './api/github'
 import { type PackageData, patchPackageData, reqNpmName, reqPackageData, reqPagesId } from './api/notion'
 import { type PackageMetadata, reqPackageMetadata, reqWeeklyDownload } from './api/npm'
 import { getOwnerAndRepo, getRepositoryUrl } from './util/utils'
+import { reqNpmMirrorWeeklyDownload } from './api/npmmirror'
 
 interface ComponentLibraryData extends PackageData {
   pageId: string
@@ -35,12 +36,14 @@ async function run() {
     if (!npmName) return Promise.resolve()
     const packageMetadata = await reqPackageMetadata(npmName)
     const weeklyDownload = await reqWeeklyDownload(npmName)
+    const npmMirrorWeeklyDownload = await reqNpmMirrorWeeklyDownload(npmName)
     const lastPublish = packageMetadata.time.modified
     const Repository = transRepositoryUrl(packageMetadata)
     const githubStar = await reqGithubStar(Repository)
     /* eslint-disable no-console */
     console.log(npmName)
     console.log('weeklyDownload', weeklyDownload)
+    console.log('npmMirrorWeeklyDownload', npmMirrorWeeklyDownload)
     console.log('lastPublish', lastPublish)
     // console.log('homePage', homePage)
     console.log('githubStar', githubStar)
@@ -49,8 +52,11 @@ async function run() {
       'GitHub Star': {
         number: githubStar,
       },
-      'Weekly Downloads': {
+      'Npm Weekly Downloads': {
         number: weeklyDownload,
+      },
+      'NpmMirror Weekly Downloads': {
+        number: npmMirrorWeeklyDownload,
       },
       'Last Publish': {
         rich_text: [

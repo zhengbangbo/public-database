@@ -51,7 +51,7 @@ describe('getOwnerAndRepo', () => {
   })
 })
 
-describe('getDate', () => {
+describe.skip('getDate', () => {
   it('today', () => {
     expect(getTodayDate()).toMatchInlineSnapshot('"2022-12-11"')
   })

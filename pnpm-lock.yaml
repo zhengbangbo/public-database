@@ -3,7 +3,6 @@ lockfileVersion: 5.4
 specifiers:
   '@notionhq/client': ^2.2.1
   '@octokit/core': ^4.1.0
-  '@types/jest': ^29.2.0
   '@zhengbangbo/eslint-config': ^0.0.9
   dayjs: ^1.11.7
   dotenv: ^16.0.3
@@ -21,7 +20,6 @@ dependencies:
   ohmyfetch: 0.4.20
 
 devDependencies:
-  '@types/jest': 29.2.0
   '@zhengbangbo/eslint-config': 0.0.9_eslint@8.26.0
   eslint: 8.26.0
   ts-jest: 29.0.3_fxe5mizohawh6cjruma5lyyrna
@@ -1082,13 +1080,6 @@ packages:
     resolution: {integrity: sha512-c3mAZEuK0lvBp8tmuL74XRKn1+y2dcwOUpH7x4WrF6gk1GIgiluDRgMYQtw2OFcBvAJWlt6ASU3tSqxp0Uu0Aw==}
     dependencies:
       '@types/istanbul-lib-report': 3.0.0
-    dev: true
-
-  /@types/jest/29.2.0:
-    resolution: {integrity: sha512-KO7bPV21d65PKwv3LLsD8Jn3E05pjNjRZvkm+YTacWhVmykAb07wW6IkZUmQAltwQafNcDUEUrMO2h3jeBSisg==}
-    dependencies:
-      expect: 29.2.2
-      pretty-format: 29.2.1
     dev: true
 
   /@types/json-schema/7.0.11:

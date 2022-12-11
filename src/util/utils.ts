@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 
 export function getRepositoryUrl(url: string) {
   const re = /github\.com\/(\d|\w|\-|\_)+\/(\d|\w|\-|\_)+/
@@ -18,6 +18,7 @@ export function getOwnerAndRepo(url: string) {
 export function getTodayDate() {
   return dayjs().format('YYYY-MM-DD')
 }
+
 export function getLastWeekDate() {
-  return dayjs().subtract(7, 'day').format('YYYY-MM-DD')
+  return dayjs().subtract(6, 'day').format('YYYY-MM-DD')
 }

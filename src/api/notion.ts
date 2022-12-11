@@ -60,7 +60,7 @@ export const reqPackageData = (page_id: page_id) => notion.pages.retrieve({ page
     }
     if ('properties' in res) {
       // Note: The following three property names are hard-coded and fail here when the header is modified
-      const weeklyDownload = res.properties['Weekly Downloads']
+      const weeklyDownload = res.properties['Npm Weekly Downloads']
       const githubStar = res.properties['GitHub Star']
       const lastPublish = res.properties['Last Publish']
 
