@@ -1,4 +1,4 @@
-import { getOwnerAndRepo, getRepositoryUrl, isRepositoryUrl } from './utils'
+import { getLastWeekDate, getOwnerAndRepo, getRepositoryUrl, getTodayDate, isRepositoryUrl } from './utils'
 
 describe('getRepositoryUrl', () => {
   const happyPath = [
@@ -48,5 +48,14 @@ describe('getOwnerAndRepo', () => {
     it(`happy path: ${url}`, () => {
       expect(getOwnerAndRepo(url)).toBe(owner_repo)
     })
+  })
+})
+
+describe('getDate', () => {
+  it('today', () => {
+    expect(getTodayDate()).toMatchInlineSnapshot('"2022-12-11"')
+  })
+  it('lastweek', () => {
+    expect(getLastWeekDate()).toMatchInlineSnapshot('"2022-12-04"')
   })
 })

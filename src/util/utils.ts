@@ -1,3 +1,5 @@
+import * as dayjs from 'dayjs'
+
 export function getRepositoryUrl(url: string) {
   const re = /github\.com\/(\d|\w|\-|\_)+\/(\d|\w|\-|\_)+/
   const fixedUrl: string[] | null = re.exec(url)
@@ -11,4 +13,11 @@ export function isRepositoryUrl(url: string) {
 
 export function getOwnerAndRepo(url: string) {
   return url.charAt(url.length - 1) === '/' ? url.slice(19).slice(0, -1) : url.slice(19)
+}
+
+export function getTodayDate() {
+  return dayjs().format('YYYY-MM-DD')
+}
+export function getLastWeekDate() {
+  return dayjs().subtract(7, 'day').format('YYYY-MM-DD')
 }
