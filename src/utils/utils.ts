@@ -1,13 +1,13 @@
 import dayjs from 'dayjs'
 
 export function getRepositoryUrl(url: string) {
-  const re = /github\.com\/(\d|\w|\-|\_)+\/(\d|\w|\-|\_)+/
+  const re = /github\.com\/(\d|\w|-|_)+\/(\d|\w|-|_)+/
   const fixedUrl: string[] | null = re.exec(url)
   return fixedUrl ? `https://${fixedUrl[0]}` : ''
 }
 
 export function isRepositoryUrl(url: string) {
-  const re = /^https:\/\/github\.com\/(\d|\w|\-|\_)+\/(\d|\w|\-|\_)+\/?$/
+  const re = /^https:\/\/github\.com\/(\d|\w|-|_)+\/(\d|\w|-|_)+\/?$/
   return re.test(url)
 }
 

@@ -1,6 +1,8 @@
 # Public Database
 
-## Libraries
+- [Npm Packages](#npm-packages)
+
+## Npm Packages
 [Table](https://zhengbangbo.notion.site/75dc1174b0394f04acde30a004683f68?v=f6eac247a5be498d8387ad3febdbd548)
 
 ```mermaid

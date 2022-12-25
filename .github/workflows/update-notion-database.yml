@@ -1,8 +1,8 @@
 on:
   workflow_dispatch:
   schedule:
-    - cron: "25 0 * * *"
-    
+    - cron: '15 0 * * *'
+
 jobs:
   updateNotionDatabase:
     runs-on: ubuntu-latest
@@ -14,5 +14,5 @@ jobs:
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: latest
-      - run: "pnpm i"
-      - run: "NOTION_TOKEN=$NOTION_TOKEN pnpm start"
+      - run: pnpm i
+      - run: NOTION_TOKEN=$NOTION_TOKEN pnpm start

@@ -1,7 +1,7 @@
 import { $fetch } from 'ohmyfetch'
 
 // https://github.com/npm/registry/blob/master/docs/download-counts.md
-export const reqWeeklyDownload = async (npmName: string | undefined) => {
+export const getWeeklyDownloadCountBy = async (npmName: string | undefined) => {
   if (!npmName) return
 
   const url = `https://api.npmjs.org/downloads/point/last-week/${npmName}`

@@ -1,4 +1,5 @@
-import { getLastWeekDate, getOwnerAndRepo, getRepositoryUrl, getTodayDate, isRepositoryUrl } from './utils'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { getLastWeekDate, getOwnerAndRepo, getRepositoryUrl, getTodayDate, isRepositoryUrl } from '../../src/utils/utils'
 
 describe('getRepositoryUrl', () => {
   const happyPath = [
@@ -51,11 +52,26 @@ describe('getOwnerAndRepo', () => {
   })
 })
 
-describe.skip('getDate', () => {
+describe('getDate', () => {
+  // https://vitest.dev/guide/mocking.html#dates
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
   it('today', () => {
-    expect(getTodayDate()).toMatchInlineSnapshot('"2022-12-11"')
+    const date = new Date(2000, 1, 1, 13)
+    vi.setSystemTime(date)
+
+    expect(getTodayDate()).toMatchInlineSnapshot('"2000-02-01"')
   })
   it('lastweek', () => {
-    expect(getLastWeekDate()).toMatchInlineSnapshot('"2022-12-04"')
+    const date = new Date(2000, 1, 1, 13)
+    vi.setSystemTime(date)
+
+    expect(getLastWeekDate()).toMatchInlineSnapshot('"2000-01-26"')
   })
 })
