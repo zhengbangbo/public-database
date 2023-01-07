@@ -1,5 +1,8 @@
-import { reqNpmMirrorWeeklyDownload } from '../../src/api/npmmirror'
+import { describe, expect, it } from 'vitest'
+import { getNpmMirrorWeeklyDownloadCountBy } from '../../src/api/npmmirror'
 
-test.skip('reqNpmMirrorWeeklyDownload', async () => {
-  expect(await reqNpmMirrorWeeklyDownload('vue')).toMatchInlineSnapshot('426805')
+describe('getNpmMirrorWeeklyDownloadCountBy', () => {
+  it('should return weekly download count ', async () => {
+    expect(await getNpmMirrorWeeklyDownloadCountBy('vue')).toBeTypeOf('number')
+  })
 })
