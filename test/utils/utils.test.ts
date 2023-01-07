@@ -5,6 +5,7 @@ describe('getRepositoryUrl', () => {
   const happyPath = [
     ['git+ssh://git@github.com/ElemeFE/element.git', 'https://github.com/ElemeFE/element'],
     ['git+https://github.com/FightingDesign/fighting-design.git', 'https://github.com/FightingDesign/fighting-design'],
+    ['git://github.com/hakimel/reveal.js.git', 'https://github.com/hakimel/reveal.js'],
   ]
   happyPath.forEach(([url, fixedUrl]) => {
     it(`happy path: ${url}`, () => {

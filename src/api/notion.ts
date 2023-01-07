@@ -20,13 +20,15 @@ export const getNpmNameBy = (page_id: string) => notion.pages.retrieve({ page_id
   (res) => {
     // https://github.com/makenotion/notion-sdk-js/issues/331#issuecomment-1196940929
     if (!('properties' in res)) return
+
     const npmName = res.properties.Name
 
     if (!('title' in npmName)) return
 
-    if (npmName.title.length !== 1) return
-
-    return npmName.title[0].plain_text
+    for (const item of npmName.title) {
+      if (item.plain_text !== '')
+        return item.plain_text
+    }
   },
 )
 
