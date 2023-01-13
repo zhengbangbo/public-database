@@ -6,11 +6,11 @@ describe('getRepositoryUrl', () => {
     ['git+ssh://git@github.com/ElemeFE/element.git', 'https://github.com/ElemeFE/element'],
     ['git+https://github.com/FightingDesign/fighting-design.git', 'https://github.com/FightingDesign/fighting-design'],
     ['git://github.com/hakimel/reveal.js.git', 'https://github.com/hakimel/reveal.js'],
+    ['https://github.com/tusen-ai/naive-ui', 'https://github.com/tusen-ai/naive-ui'],
   ]
   happyPath.forEach(([url, fixedUrl]) => {
     it(`happy path: ${url}`, () => {
       const getUrl = getRepositoryUrl(url)
-      // expect(isRepositoryUrl(getUrl)).toBeTruthy()
       expect(getUrl).toBe(fixedUrl)
     })
   })
@@ -29,7 +29,7 @@ describe('isRepositoryUrl', () => {
     'https://github.com/',
   ]
   happyUrl.forEach((url) => {
-    it(`sad path: ${url}`, () => {
+    it(`happy path: ${url}`, () => {
       expect(isRepositoryUrl(url)).toBeTruthy()
     })
   })
@@ -69,7 +69,7 @@ describe('getDate', () => {
 
     expect(getTodayDate()).toMatchInlineSnapshot('"2000-02-01"')
   })
-  it('lastweek', () => {
+  it('last week', () => {
     const date = new Date(2000, 1, 1, 13)
     vi.setSystemTime(date)
 

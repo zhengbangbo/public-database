@@ -2,60 +2,58 @@ import { reqGithubStar } from './api/github'
 import { getAllPageIdsFromDatabase, getNpmNameBy, patchPackageData } from './api/notion'
 import { type PackageMetadata, getWeeklyDownloadCountBy, reqPackageMetadata } from './api/npm'
 import { getNpmMirrorWeeklyDownloadCountBy } from './api/npmmirror'
+import { NpmPackageBlocks } from './services/notion'
 import { getOwnerAndRepo, getRepositoryUrl } from './utils/utils'
 
 async function run() {
   try {
     const pageIds = await getAllPageIdsFromDatabase()
+    if (!pageIds) return
     const AllPackages = await Promise.all(
       pageIds.map(async (pageId) => {
         return { pageId, npmName: await getNpmNameBy(pageId) }
       }))
 
     for (const aPackage of AllPackages) {
+      /* eslint-disable no-console */
+      console.log('aPackage', aPackage)
       const { pageId, npmName } = aPackage
       const packageMetadata = await reqPackageMetadata(npmName)
       const lastPublish = packageMetadata.time.modified
       const Repository = transRepositoryUrl(packageMetadata)
       const githubStar = await reqGithubStar(Repository)
-
       const weeklyDownload = await getWeeklyDownloadCountBy(npmName)
       const npmMirrorWeeklyDownload = await getNpmMirrorWeeklyDownloadCountBy(npmName)
+      const homePage = packageMetadata?.homepage
 
-      /* eslint-disable no-console */
-      console.log('npmName', npmName)
       console.log('weeklyDownload', weeklyDownload)
       console.log('npmMirrorWeeklyDownload', npmMirrorWeeklyDownload)
       console.log('lastPublish', lastPublish)
-      // console.log('homePage', homePage)
       console.log('githubStar', githubStar)
       /* eslint-enable no-console */
 
+      const { starCount, npmWeeklyDownloadsCount, npmMirrorWeeklyDownloadsCount, lastPublishDate, githubURL, homepageURL } = NpmPackageBlocks
+
       const properties = {
-        'GitHub Star': {
+        [starCount]: {
           number: githubStar,
         },
-        'Npm Weekly Downloads': {
+        [npmWeeklyDownloadsCount]: {
           number: weeklyDownload,
         },
-        'NpmMirror Weekly Downloads': {
+        [npmMirrorWeeklyDownloadsCount]: {
           number: npmMirrorWeeklyDownload,
         },
-        'Last Publish': {
-          rich_text: [
-            {
-              plain_text: lastPublish,
-              text: {
-                content: lastPublish,
-              },
-            },
-          ],
+        [lastPublishDate]: {
+          date: {
+            start: lastPublish,
+          },
         },
-        'GitHub': {
-          url: getRepositoryUrl(packageMetadata.repository.url) || packageMetadata.bugs.url.slice(0, -7) || packageMetadata.homepage,
+        [githubURL]: {
+          url: Repository,
         },
-        'Homepage': {
-          url: packageMetadata?.homepage,
+        [homepageURL]: {
+          url: homePage,
         },
       }
       await patchPackageData(pageId, properties)
@@ -67,7 +65,13 @@ async function run() {
 }
 
 function transRepositoryUrl(packageMetadata: PackageMetadata) {
-  const repositoryUrl: string = getRepositoryUrl(packageMetadata.repository.url) || packageMetadata.bugs.url.slice(0, -7) || packageMetadata.homepage
+  /* eslint-disable no-console */
+  console.log('# packageMetadata.bugs', packageMetadata.bugs)
+  console.log('# packageMetadata.repository', packageMetadata.repository)
+  console.log('# getRepositoryUrl(packageMetadata.repository.url)', getRepositoryUrl(packageMetadata.repository.url))
+  console.log('# packageMetadata.homepage', packageMetadata.homepage)
+  /* eslint-enable no-console */
+  const repositoryUrl: string = packageMetadata.bugs.url.slice(0, -7) || getRepositoryUrl(packageMetadata.repository.url) || packageMetadata.homepage
   return getOwnerAndRepo(repositoryUrl)
 }
 

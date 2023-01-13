@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { getWeeklyDownloadCountBy, reqPackageMetadata } from '../../src/api/npm'
 
-describe('getWeelkyDownloadCountBy', () => {
+describe('getWeeklyDownloadCountBy', () => {
   it('should return Weekly Download Count', async () => {
     expect(await getWeeklyDownloadCountBy('vue')).toBeTypeOf('number')
   })

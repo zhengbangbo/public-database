@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 export function getRepositoryUrl(url: string) {
   const re = /github\.com\/[^\/]+\/[^\/]+\.git/
   const fixedUrl: string[] | null = re.exec(url)
-  return fixedUrl ? `https://${fixedUrl[0].slice(0, -4)}` : ''
+  return fixedUrl ? `https://${fixedUrl[0].slice(0, -4)}` : url
 }
 
 export function isRepositoryUrl(url: string) {
