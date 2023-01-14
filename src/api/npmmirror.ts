@@ -8,22 +8,16 @@ dayjs.extend(isSameOrBefore)
 dayjs.extend(isSameOrAfter)
 
 // https://registry.npmmirror.com/downloads/range/2022-12-01:2022-12-11/antd
-export const getNpmMirrorWeeklyDownloadCountBy = async (npmName: string | undefined) => {
-  if (!npmName) return
-  const lastweek = getLastWeekDate()
+export const getNpmMirrorWeeklyDownloadCountBy = async (npmName: string) => {
+  if (!npmName) throw new Error('empty npmName')
+
+  const lastWeek = getLastWeekDate()
   const today = getTodayDate()
-
-  const url = `https://registry.npmmirror.com/downloads/range/${lastweek}:${today}/${npmName}`
-  try {
-    const resp = await $fetch(url)
-
-    const week = resp.downloads.filter((items: any) => dayjs(items.day).isSameOrAfter(lastweek) && dayjs(items.day).isSameOrBefore(today))
-    return week.reduce(
-      (accumulator: number, currentValue: any) => accumulator + currentValue.downloads,
-      0,
-    )
-  }
-  catch (error) {
-    console.error(error)
-  }
+  const url = `https://registry.npmmirror.com/downloads/range/${lastWeek}:${today}/${npmName}`
+  const response = await $fetch(url)
+  const week = response.downloads.filter((items: any) => dayjs(items.day).isSameOrAfter(lastWeek) && dayjs(items.day).isSameOrBefore(today))
+  return week.reduce(
+    (accumulator: number, currentValue: any) => accumulator + currentValue.downloads,
+    0,
+  )
 }

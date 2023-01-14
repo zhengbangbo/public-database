@@ -18,6 +18,7 @@ C -->|npm mirror| M(NpmMirror Weekly Downloads) --> N
 ## API
 
 - [Notion API](https://developers.notion.com/reference)
-- [REST API](https://docs.github.com/en/rest)
+- [GITHUB REST API](https://docs.github.com/en/rest)
+  - [**Rate limits**](https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting)
 - [NPM API](./src/api/npm.ts)
 - [Npm Mirror API](./src/api/npmmirror.ts)

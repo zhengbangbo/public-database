@@ -1,4 +1,19 @@
 import dayjs from 'dayjs'
+import type { PackageMetadata } from '../api/npm'
+
+export function transRepositoryUrl(packageMetadata: PackageMetadata) {
+  const { bugs, repository, homepage } = packageMetadata
+  const try1 = bugs?.url.slice(0, -7)
+  const try2 = getRepositoryUrl(repository.url)
+  const try3 = homepage
+  if (try1 && isRepositoryUrl(try1)) return try1
+  if (try2 && isRepositoryUrl(try2)) return try2
+  if (try3 && isRepositoryUrl(try3)) return try3
+  throw new Error(`cannot trans repository url: 
+  bugs: ${bugs?.url}
+  repository: ${repository.url}
+  homepage: ${homepage}`)
+}
 
 export function getRepositoryUrl(url: string) {
   const re = /github\.com\/[^\/]+\/[^\/]+\.git/
@@ -7,7 +22,7 @@ export function getRepositoryUrl(url: string) {
 }
 
 export function isRepositoryUrl(url: string) {
-  const re = /^https:\/\/github\.com\/(\d|\w|-|_)+\/(\d|\w|-|_)+\/?$/
+  const re = /^https:\/\/github\.com\/(\w|-|_|\.)+\/(\w|-|_|\.)+\/?$/
   return re.test(url)
 }
 
@@ -22,3 +37,4 @@ export function getTodayDate() {
 export function getLastWeekDate() {
   return dayjs().subtract(6, 'day').format('YYYY-MM-DD')
 }
+

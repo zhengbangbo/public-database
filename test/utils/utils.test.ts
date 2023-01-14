@@ -1,5 +1,58 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { getLastWeekDate, getOwnerAndRepo, getRepositoryUrl, getTodayDate, isRepositoryUrl } from '../../src/utils/utils'
+import {
+  getLastWeekDate,
+  getOwnerAndRepo,
+  getRepositoryUrl,
+  getTodayDate,
+  isRepositoryUrl,
+  transRepositoryUrl,
+} from '../../src/utils/utils'
+
+describe('transRepositoryUrl', () => {
+  const testcases = [
+    {
+      name: 'vuetify',
+      input: {
+        time: {
+          modified: '',
+        },
+        homepage: 'https://vuetifyjs.com',
+        repository: {
+          type: 'git',
+          url: 'git+https://github.com/vuetifyjs/vuetify.git',
+          directory: 'packages/vuetify',
+        },
+        bugs: {
+          url: 'https://issues.vuetifyjs.com',
+        },
+      },
+      output: 'https://github.com/vuetifyjs/vuetify',
+    },
+    {
+      name: 'reveal.js',
+      input: {
+        time: {
+          modified: '',
+        },
+        homepage: 'https://revealjs.com',
+        repository: {
+          type: 'git',
+          url: 'git://github.com/hakimel/reveal.js.git',
+        },
+        bugs: {
+          url: 'https://github.com/hakimel/reveal.js/issues',
+        },
+      },
+      output: 'https://github.com/hakimel/reveal.js',
+    },
+  ]
+
+  testcases.forEach(({ name, input, output }) => {
+    it(name, () => {
+      expect(transRepositoryUrl(input)).toBe(output)
+    })
+  })
+})
 
 describe('getRepositoryUrl', () => {
   const happyPath = [

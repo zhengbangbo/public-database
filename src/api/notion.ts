@@ -1,51 +1,24 @@
 import { Client } from '@notionhq/client'
-import type {
-  PageObjectResponse,
-  PartialPageObjectResponse,
-  QueryDatabaseResponse,
-} from '@notionhq/client/build/src/api-endpoints'
 import * as dotenv from 'dotenv'
-import { NpmPackageBlocks } from '../services/notion'
+import { NpmPackagesProperties } from '../config/notion'
 
 dotenv.config()
 const notion = new Client({ auth: process.env.NOTION_TOKEN })
 
-const database_id = '75dc1174b0394f04acde30a004683f68'
-
-export const getAllPageIdsFromDatabase = async () => {
-  try {
-    const res: QueryDatabaseResponse = await notion.databases.query({ database_id })
-    return res.results.map(item => item.id)
-  }
-  catch (e) {
-    console.error(e)
-  }
+export const getAllPageIdsFromDatabase = async (database_id: string) => {
+  if (!database_id) throw new Error('empty database id')
+  const response = await notion.databases.query({ database_id })
+  return response.results.map(item => item.id)
 }
+
 export const getNpmNameBy = async (page_id: string) => {
-  try {
-    // https://github.com/makenotion/notion-sdk-js/issues/331#issuecomment-1196940929
-    const response: PageObjectResponse | PartialPageObjectResponse = await notion.pages.retrieve({ page_id })
-    if ('properties' in response) {
-      const title = response.properties[NpmPackageBlocks.title]
-      if ('title' in title)
-        return title.title[0].plain_text
-    }
-    //   {
-    //   id: 'title',
-    //   type: 'title',
-    //   title: [
-    //     {
-    //       type: 'text',
-    //       text: [Object],
-    //       annotations: [Object],
-    //       plain_text: 'reveal.js',
-    //       href: null
-    //     }
-    //   ]
-    // }
-  }
-  catch (e) {
-    console.error(e)
+  if (!page_id) throw new Error('empty page id')
+  // https://github.com/makenotion/notion-sdk-js/issues/331#issuecomment-1196940929
+  const response = await notion.pages.retrieve({ page_id })
+  if ('properties' in response) {
+    const titleObj = response.properties[NpmPackagesProperties.title]
+    if ('title' in titleObj)
+      return titleObj.title[0].plain_text
   }
 }
 
