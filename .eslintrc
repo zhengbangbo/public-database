@@ -1,4 +1,4 @@
 {
-  "extends": "@zhengbangbo",
+  "extends": "@antfu",
   "ignorePatterns": ["src/**/*.test.ts", "out"]
 }

@@ -21,7 +21,7 @@
     "ohmyfetch": "^0.4.21"
   },
   "devDependencies": {
-    "@zhengbangbo/eslint-config": "^0.0.12",
+    "@antfu/eslint-config": "^0.38.4",
     "eslint": "^8.38.0",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
