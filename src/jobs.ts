@@ -7,7 +7,8 @@ import { transRepositoryUrl } from './utils/utils'
 
 export async function syncNotionDateNpmPackages() {
   const pageIds = await getAllPageIdsFromDatabase(NotionPageIds.npmPackage)
-  if (!pageIds) throw new Error('empty page ids')
+  if (!pageIds)
+    throw new Error('empty page ids')
   const AllPackages = await Promise.all(
     pageIds.map(async (pageId) => {
       return {
@@ -20,7 +21,8 @@ export async function syncNotionDateNpmPackages() {
     // eslint-disable-next-line no-console
     console.log('aPackage', aPackage)
     const { pageId, npmName } = aPackage
-    if (!npmName) throw new Error('empty npm name')
+    if (!npmName)
+      throw new Error('empty npm name')
     const { time, bugs, homepage, repository } = await reqPackageMetadata(npmName)
 
     const lastPublish = time.modified

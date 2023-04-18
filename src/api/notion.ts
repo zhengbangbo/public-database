@@ -5,14 +5,16 @@ import { NpmPackagesProperties } from '../config/notion'
 dotenv.config()
 const notion = new Client({ auth: process.env.NOTION_TOKEN })
 
-export const getAllPageIdsFromDatabase = async (database_id: string) => {
-  if (!database_id) throw new Error('empty database id')
+export async function getAllPageIdsFromDatabase(database_id: string) {
+  if (!database_id)
+    throw new Error('empty database id')
   const response = await notion.databases.query({ database_id })
   return response.results.map(item => item.id)
 }
 
-export const getNpmNameBy = async (page_id: string) => {
-  if (!page_id) throw new Error('empty page id')
+export async function getNpmNameBy(page_id: string) {
+  if (!page_id)
+    throw new Error('empty page id')
   // https://github.com/makenotion/notion-sdk-js/issues/331#issuecomment-1196940929
   const response = await notion.pages.retrieve({ page_id })
   if ('properties' in response) {
@@ -22,4 +24,6 @@ export const getNpmNameBy = async (page_id: string) => {
   }
 }
 
-export const patchPackageData = (page_id: string, properties: any) => notion.pages.update({ page_id, properties })
+export function patchPackageData(page_id: string, properties: any) {
+  return notion.pages.update({ page_id, properties })
+}

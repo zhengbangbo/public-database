@@ -1,8 +1,9 @@
 import { $fetch } from 'ohmyfetch'
 
 // https://github.com/npm/registry/blob/master/docs/download-counts.md
-export const getWeeklyDownloadCountBy = async (npmName: string) => {
-  if (!npmName) throw new Error('empty npmName')
+export async function getWeeklyDownloadCountBy(npmName: string) {
+  if (!npmName)
+    throw new Error('empty npmName')
 
   const url = `https://api.npmjs.org/downloads/point/last-week/${npmName}`
   const { downloads } = await $fetch(url)
@@ -24,8 +25,9 @@ export interface PackageMetadata {
     url: string
   }
 }
-export const reqPackageMetadata = async (npmName: string) => {
-  if (!npmName) throw new Error('empty npmName')
+export async function reqPackageMetadata(npmName: string) {
+  if (!npmName)
+    throw new Error('empty npmName')
 
   return await $fetch(`https://registry.npmjs.org/${npmName}`) as PackageMetadata
 }

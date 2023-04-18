@@ -1,6 +1,13 @@
 on:
   workflow_dispatch:
+    inputs:
+      action:
+        description: 手动执行
+        required: true
+        default: deploy
   push:
+    branches:
+      - main
 
 jobs:
   test:

@@ -8,8 +8,9 @@ dayjs.extend(isSameOrBefore)
 dayjs.extend(isSameOrAfter)
 
 // https://registry.npmmirror.com/downloads/range/2022-12-01:2022-12-11/antd
-export const getNpmMirrorWeeklyDownloadCountBy = async (npmName: string) => {
-  if (!npmName) throw new Error('empty npmName')
+export async function getNpmMirrorWeeklyDownloadCountBy(npmName: string) {
+  if (!npmName)
+    throw new Error('empty npmName')
 
   const lastWeek = getLastWeekDate()
   const today = getTodayDate()

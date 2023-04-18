@@ -6,9 +6,12 @@ export function transRepositoryUrl(packageMetadata: PackageMetadata) {
   const try1 = bugs?.url.slice(0, -7)
   const try2 = getRepositoryUrl(repository.url)
   const try3 = homepage
-  if (try1 && isRepositoryUrl(try1)) return try1
-  if (try2 && isRepositoryUrl(try2)) return try2
-  if (try3 && isRepositoryUrl(try3)) return try3
+  if (try1 && isRepositoryUrl(try1))
+    return try1
+  if (try2 && isRepositoryUrl(try2))
+    return try2
+  if (try3 && isRepositoryUrl(try3))
+    return try3
   throw new Error(`cannot trans repository url: 
   bugs: ${bugs?.url}
   repository: ${repository.url}
@@ -37,4 +40,3 @@ export function getTodayDate() {
 export function getLastWeekDate() {
   return dayjs().subtract(6, 'day').format('YYYY-MM-DD')
 }
-
