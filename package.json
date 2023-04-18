@@ -1,8 +1,8 @@
 {
-  "name": "component-library-list",
+  "name": "@zhengbangbo/public-database",
   "version": "0.1.0",
-  "description": "",
-  "author": "Bang-Bo Zheng <zhengbangbo@hotmail.com> (https://github.com/zhengbangbo)",
+  "description": "Butterfly net of my public database",
+  "author": "Zheng, Bang-Bo <zhengbangbo@hotmail.com> (https://github.com/zhengbangbo)",
   "license": "MIT",
   "keywords": [],
   "main": "./out/main.js",
@@ -14,17 +14,17 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@notionhq/client": "^2.2.3",
-    "@octokit/core": "^4.1.0",
+    "@notionhq/client": "^2.2.4",
+    "@octokit/core": "^4.2.0",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "ohmyfetch": "^0.4.21"
   },
   "devDependencies": {
     "@zhengbangbo/eslint-config": "^0.0.12",
-    "eslint": "^8.30.0",
-    "ts-jest": "^29.0.3",
+    "eslint": "^8.38.0",
+    "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
-    "vitest": "^0.26.2"
+    "vitest": "^0.30.1"
   }
 }
