@@ -1,19 +1,29 @@
 import { describe, expect, it } from 'vitest'
-import { getAllPageIdsFromDatabase, getNpmNameBy } from '../../src/api/notion'
+import { getNpmNameAndPageIdBy, getNpmNameBy, queryDatabase } from '../../src/api/notion'
 import { NotionPageIds } from '../../src/config/notion'
 
 const database_id = NotionPageIds.npmPackage
-describe('getNpmNameBy', () => {
+
+describe('queryDatabase', () => {
   it('should return npm name', async () => {
-    const pageIds = await getAllPageIdsFromDatabase(database_id)
-    const npmName = await getNpmNameBy(pageIds[0])
-    expect(npmName).toBeTypeOf('string')
+    const result = await queryDatabase(database_id)
+    expect(result).toBeTypeOf('object')
   })
 })
 
-describe('getAllPageIdsFromDatabase', () => {
-  it('should return page id', async () => {
-    const pageIds: string[] = await getAllPageIdsFromDatabase(database_id)
-    expect(pageIds[0]).toBeTypeOf('string')
+describe('getNpmNameAndPageIdBy', () => {
+  it('should return npm name and page id pairs', async () => {
+    const result = await getNpmNameAndPageIdBy(database_id)
+    expect(result).toBeTypeOf('object')
+    expect(result[0]).toHaveProperty('npmName')
+    expect(result[0]).toHaveProperty('pageId')
+  })
+})
+
+describe('getNpmNameBy', () => {
+  it('should return npm name', async () => {
+    const pageId = await getNpmNameAndPageIdBy(database_id).then(result => result[0].pageId)
+    const result = await getNpmNameBy(pageId)
+    expect(result).toBeTypeOf('string')
   })
 })

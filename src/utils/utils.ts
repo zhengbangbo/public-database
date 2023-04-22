@@ -12,7 +12,7 @@ export function transRepositoryUrl(packageMetadata: PackageMetadata) {
     return try2
   if (try3 && isRepositoryUrl(try3))
     return try3
-  throw new Error(`cannot trans repository url: 
+  throw new Error(`cannot trans repository url:
   bugs: ${bugs?.url}
   repository: ${repository.url}
   homepage: ${homepage}`)

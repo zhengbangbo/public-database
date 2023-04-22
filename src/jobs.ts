@@ -7,15 +7,15 @@ import { transRepositoryUrl } from './utils/utils'
 
 export async function syncNotionDateNpmPackages() {
   const AllPackages = await getNpmNameAndPageIdBy(NotionPageIds.npmPackage)
-  if (!AllPackages)
-    throw new Error('empty packages')
 
+  await setAllPackages(AllPackages)
+}
+
+export async function setAllPackages(AllPackages: any) {
   for (const aPackage of AllPackages) {
-    // eslint-disable-next-line no-console
-    console.log('aPackage', aPackage)
     const { pageId, npmName } = aPackage
-    if (!npmName)
-      throw new Error('empty npm name')
+    console.log(`start sync ${npmName}...${pageId}`)
+
     const { time, bugs, homepage, repository } = await reqPackageMetadata(npmName)
 
     const lastPublish = time.modified
@@ -26,31 +26,36 @@ export async function syncNotionDateNpmPackages() {
     const npmMirrorWeeklyDownload = await getNpmMirrorWeeklyDownloadCountBy(npmName)
     const githubStar = await reqGithubStar(github)
 
-    const { starCount, npmWeeklyDownloadsCount, npmMirrorWeeklyDownloadsCount, lastPublishDate, githubURL, homepageURL } = NpmPackagesProperties
-
-    const properties = {
-      [starCount]: {
-        number: githubStar,
-      },
-      [npmWeeklyDownloadsCount]: {
-        number: weeklyDownload,
-      },
-      [npmMirrorWeeklyDownloadsCount]: {
-        number: npmMirrorWeeklyDownload,
-      },
-      [lastPublishDate]: {
-        date: {
-          start: lastPublish,
-        },
-      },
-      [githubURL]: {
-        url: github,
-      },
-      [homepageURL]: {
-        url: homePage,
-      },
-    }
+    const properties = readyProps(githubStar, weeklyDownload, npmMirrorWeeklyDownload, lastPublish, github, homePage)
 
     await patchPackageData(pageId, properties)
   }
+}
+
+function readyProps(githubStar: any, weeklyDownload: any, npmMirrorWeeklyDownload: any, lastPublish: string, github: string, homePage: string | undefined) {
+  const { starCount, npmWeeklyDownloadsCount, npmMirrorWeeklyDownloadsCount, lastPublishDate, githubURL, homepageURL } = NpmPackagesProperties
+
+  const properties = {
+    [starCount]: {
+      number: githubStar,
+    },
+    [npmWeeklyDownloadsCount]: {
+      number: weeklyDownload,
+    },
+    [npmMirrorWeeklyDownloadsCount]: {
+      number: npmMirrorWeeklyDownload,
+    },
+    [lastPublishDate]: {
+      date: {
+        start: lastPublish,
+      },
+    },
+    [githubURL]: {
+      url: github,
+    },
+    [homepageURL]: {
+      url: homePage,
+    },
+  }
+  return properties
 }

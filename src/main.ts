@@ -4,9 +4,9 @@ async function main() {
   await syncNotionDateNpmPackages()
 }
 
-main().then((r) => {
+main().then(() => {
   // eslint-disable-next-line no-console
-  console.log('done', r)
+  console.log('done')
 }).catch((e) => {
   console.error(e)
 })
