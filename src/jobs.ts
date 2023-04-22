@@ -1,21 +1,14 @@
 import { reqGithubStar } from './api/github'
-import { getAllPageIdsFromDatabase, getNpmNameBy, patchPackageData } from './api/notion'
+import { getNpmNameAndPageIdBy, patchPackageData } from './api/notion'
 import { getWeeklyDownloadCountBy, reqPackageMetadata } from './api/npm'
 import { getNpmMirrorWeeklyDownloadCountBy } from './api/npmmirror'
 import { NotionPageIds, NpmPackagesProperties } from './config/notion'
 import { transRepositoryUrl } from './utils/utils'
 
 export async function syncNotionDateNpmPackages() {
-  const pageIds = await getAllPageIdsFromDatabase(NotionPageIds.npmPackage)
-  if (!pageIds)
-    throw new Error('empty page ids')
-  const AllPackages = await Promise.all(
-    pageIds.map(async (pageId) => {
-      return {
-        pageId,
-        npmName: await getNpmNameBy(pageId),
-      }
-    }))
+  const AllPackages = await getNpmNameAndPageIdBy(NotionPageIds.npmPackage)
+  if (!AllPackages)
+    throw new Error('empty packages')
 
   for (const aPackage of AllPackages) {
     // eslint-disable-next-line no-console
