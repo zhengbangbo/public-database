@@ -3,7 +3,8 @@ import type { PackageMetadata } from '../api/npm'
 
 export function transRepositoryUrl(packageMetadata: PackageMetadata) {
   const { bugs, repository, homepage } = packageMetadata
-  const try1 = bugs?.url.slice(0, -7)
+
+  const try1 = bugs ? (isRepositoryUrl(bugs?.url) ? bugs?.url : bugs?.url.slice(0, -7)) : null
   const try2 = getRepositoryUrl(repository.url)
   const try3 = homepage
   if (try1 && isRepositoryUrl(try1))
@@ -24,7 +25,7 @@ export function getRepositoryUrl(url: string) {
   return fixedUrl ? `https://${fixedUrl[0].slice(0, -4)}` : url
 }
 
-export function isRepositoryUrl(url: string) {
+export function isRepositoryUrl(url: string): Boolean {
   const re = /^https:\/\/github\.com\/(\w|-|_|\.)+\/(\w|-|_|\.)+\/?$/
   return re.test(url)
 }
