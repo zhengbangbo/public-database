@@ -9,50 +9,76 @@ import {
 } from '../../src/utils/utils'
 
 describe('transRepositoryUrl', () => {
-  const testcases = [
-    {
-      name: 'vuetify',
-      input: {
-        time: {
-          modified: '',
-        },
-        homepage: 'https://vuetifyjs.com',
-        repository: {
-          type: 'git',
-          url: 'git+https://github.com/vuetifyjs/vuetify.git',
-          directory: 'packages/vuetify',
-        },
-        bugs: {
-          url: 'https://issues.vuetifyjs.com',
-        },
+  it('should return the repository url', () => {
+    const input = {
+      time: {
+        modified: '',
       },
-      output: 'https://github.com/vuetifyjs/vuetify',
-    },
-    {
-      name: 'reveal.js',
-      input: {
-        time: {
-          modified: '',
-        },
-        homepage: 'https://revealjs.com',
-        repository: {
-          type: 'git',
-          url: 'git://github.com/hakimel/reveal.js.git',
-        },
-        bugs: {
-          url: 'https://github.com/hakimel/reveal.js/issues',
-        },
+      homepage: 'https://vuetifyjs.com',
+      repository: {
+        type: 'git',
+        url: 'git+https://github.com/vuetifyjs/vuetify.git',
+        directory: 'packages/vuetify',
       },
-      output: 'https://github.com/hakimel/reveal.js',
-    },
-  ]
+      bugs: {
+        url: 'https://issues.vuetifyjs.com',
+      },
+    }
+    const output = 'https://github.com/vuetifyjs/vuetify'
 
-  testcases.forEach(({ name, input, output }) => {
-    it(name, () => {
-      expect(transRepositoryUrl(input)).toBe(output)
-    })
+    expect(transRepositoryUrl(input)).toBe(output)
+  })
+
+  it('should return the repository url when contains decimal sign', () => {
+    const input = {
+      time: {
+        modified: '',
+      },
+      homepage: 'https://revealjs.com',
+      repository: {
+        type: 'git',
+        url: 'git://github.com/hakimel/reveal.js.git',
+      },
+      bugs: {
+        url: 'https://github.com/hakimel/reveal.js/issues',
+      },
+    }
+    const output = 'https://github.com/hakimel/reveal.js'
+
+    expect(transRepositoryUrl(input)).toBe(output)
+  })
+
+  it('should return the repository url when bugs.url have not issues', () => {
+    const input = {
+      time: {
+        'created': '2022-12-14T14:46:30.215Z',
+        '0.1.0': '2022-12-14T14:46:30.416Z',
+        'modified': '2023-02-12T09:40:36.787Z',
+        '0.2.0': '2023-01-02T12:17:55.665Z',
+        '0.2.1': '2023-02-12T09:40:36.640Z',
+      },
+      homepage: 'https://floating-ui.com/docs/vue',
+      repository: {
+        type: 'git',
+        url: 'git+https://github.com/floating-ui/floating-ui.git',
+        directory: 'packages/vue',
+      },
+      bugs: {
+        url: 'https://github.com/floating-ui/floating-ui',
+      },
+      url: 'https://github.com/floating-ui/floating-ui',
+    }
+    const output = 'https://github.com/floating-ui/floating-ui'
+
+    expect(transRepositoryUrl(input)).toBe(output)
   })
 })
+// {
+//   name: 'reveal.js',
+// },
+// {
+//   name: '@floating-ui/vue',
+// },
 
 describe('getRepositoryUrl', () => {
   const happyPath = [
@@ -82,12 +108,12 @@ describe('isRepositoryUrl', () => {
     'https://github.com/',
   ]
   happyUrl.forEach((url) => {
-    it(`happy path: ${url}`, () => {
+    it(`should return true: ${url}`, () => {
       expect(isRepositoryUrl(url)).toBeTruthy()
     })
   })
   sadUrl.forEach((url) => {
-    it(`sad path: ${url}`, () => {
+    it(`should return false: ${url}`, () => {
       expect(isRepositoryUrl(url)).toBeFalsy()
     })
   })
@@ -100,7 +126,7 @@ describe('getOwnerAndRepo', () => {
     ['https://github.com/npm/app', 'npm/app'],
   ]
   happyUrl.forEach(([url, owner_repo]) => {
-    it(`happy path: ${url}`, () => {
+    it(`should return true: ${url}`, () => {
       expect(getOwnerAndRepo(url)).toBe(owner_repo)
     })
   })
@@ -122,6 +148,7 @@ describe('getDate', () => {
 
     expect(getTodayDate()).toMatchInlineSnapshot('"2000-02-01"')
   })
+
   it('last week', () => {
     const date = new Date(2000, 1, 1, 13)
     vi.setSystemTime(date)
