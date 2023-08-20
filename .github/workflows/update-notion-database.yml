@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NOTION_TOKEN: ${{secrets.NOTION_TOKEN}}
+      MY_GITHUB_TOKEN: ${{secrets.MY_GITHUB_TOKEN}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,4 +24,4 @@ jobs:
         with:
           version: latest
       - run: pnpm i
-      - run: NOTION_TOKEN=$NOTION_TOKEN pnpm start
+      - run: NOTION_TOKEN=$NOTION_TOKEN MY_GITHUB_TOKEN=$MY_GITHUB_TOKEN pnpm start

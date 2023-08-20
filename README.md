@@ -26,3 +26,20 @@ C -->|npm mirror| M(NpmMirror Weekly Downloads) --> N
   - [**Rate limits**](https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting)
 - [NPM API](./src/api/npm.ts)
 - [Npm Mirror API](./src/api/npmmirror.ts)
+
+## Q&A
+
+### `sh: tsc: command not found`
+
+```bash
+npm i -g typescript
+```      
+
+### `@notionhq/client warn: request fail { code: 'unauthorized', message: 'API token is invalid.' }`
+
+```bash
+cp .env.example .env
+```
+
+打开 https://www.notion.so/my-integrations ，打开 Notion 集成页面，登录自己的账号，点击 New integration 创建一个新的应用
+

@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv'
 import { getOwnerAndRepo } from '../utils/utils'
 
 dotenv.config()
-const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN })
+const octokit = new Octokit({ auth: process.env.MY_GITHUB_TOKEN })
 
 export async function reqGithubStar(repoUrl: string) {
   const repo = getOwnerAndRepo(repoUrl)
